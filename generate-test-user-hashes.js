@@ -5,7 +5,7 @@
  * Run: node generate-test-user-hashes.js
  */
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const passwords = {
   admin: 'admin123',

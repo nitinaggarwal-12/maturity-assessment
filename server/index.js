@@ -48,6 +48,7 @@ const questionEditsRoutes = require('./routes/questionEdits');
 const questionAssignmentsRoutes = require('./routes/questionAssignments');
 const dataCleanupRoutes = require('./routes/dataCleanup');
 const authorValidationRoutes = require('./routes/authorValidation');
+const genaiReadinessRoutes = require('./routes/genaiReadiness');
 const { requireAdmin } = require('./middleware/auth');
 
 // Mount routes
@@ -62,6 +63,7 @@ app.use('/api/assessment-excel', excelRoutes);
 app.use('/api/question-edits', questionEditsRoutes);
 app.use('/api/question-assignments', questionAssignmentsRoutes);
 app.use('/api/data-cleanup', dataCleanupRoutes);
+app.use('/api/genai-readiness', genaiReadinessRoutes);
 
 // Admin endpoint to release/unrelease assessment results
 app.post('/api/admin/release-results/:assessmentId', requireAuth, requireAdmin, async (req, res) => {
@@ -2586,7 +2588,6 @@ app.get('/api/assessments', requireAuth, async (req, res) => {
           throw mapError;
         }
       });
-    }
     }
     
     console.log(`[GET /api/assessments] Processing ${pgAssessments.length} assessments`);

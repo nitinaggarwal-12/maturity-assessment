@@ -59,6 +59,21 @@
   color: #764ba2;
 }
 
+.info-divider {
+  color: #cbd5e0;
+  font-size: 0.9em;
+  user-select: none;
+}
+
+.btn-prefill {
+  font-weight: 600;
+  color: #319795; /* A nice teal color for the prefill button */
+}
+
+.btn-prefill:hover {
+  color: #2c7a7b;
+}
+
 /* Modal */
 .modal-overlay {
   position: fixed;

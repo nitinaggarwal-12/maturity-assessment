@@ -16,7 +16,10 @@ const GenAIReadiness = () => {
   const [editMode, setEditMode] = useState(false);
   const [assessmentId, setAssessmentId] = useState(null);
 
+  console.log('[GenAIReadiness] Render. showNameModal:', showNameModal, 'customerName:', customerName, 'loading:', loading, 'editMode:', editMode);
+
   useEffect(() => {
+    console.log('[GenAIReadiness] useEffect mount/id change. id:', id);
     loadFramework();
     if (id) {
       loadExistingAssessment(id);
@@ -25,7 +28,9 @@ const GenAIReadiness = () => {
 
   const loadFramework = async () => {
     try {
+      console.log('[GenAIReadiness] Loading framework from API...');
       const response = await axios.get('/api/genai-readiness/framework');
+      console.log('[GenAIReadiness] Framework loaded successfully:', response.data);
       setFramework(response.data);
       setLoading(false);
     } catch (error) {
@@ -56,6 +61,26 @@ const GenAIReadiness = () => {
       ...prev,
       [questionId]: value
     }));
+  };
+
+  const handlePrefill = () => {
+    if (!framework) return;
+    
+    if (!customerName || !customerName.trim()) {
+      setCustomerName('Merck');
+    }
+    
+    const prefilled = {};
+    framework.dimensions.forEach(dimension => {
+      dimension.questions.forEach(question => {
+        if (question.options && question.options.length > 0) {
+          const randomIndex = Math.floor(Math.random() * question.options.length);
+          prefilled[question.id] = question.options[randomIndex].value;
+        }
+      });
+    });
+    
+    setResponses(prefilled);
   };
 
   const calculateScore = () => {
@@ -202,7 +227,9 @@ const GenAIReadiness = () => {
               <button 
                 className="btn-primary"
                 onClick={() => {
+                  console.log('[GenAIReadiness] Start Assessment button clicked. Customer Name:', customerName);
                   if (customerName.trim()) {
+                    console.log('[GenAIReadiness] Closing name modal...');
                     setShowNameModal(false);
                   } else {
                     alert('Please enter a customer name');
@@ -231,6 +258,14 @@ const GenAIReadiness = () => {
               onClick={() => setShowNameModal(true)}
             >
               Change
+            </button>
+            <span className="info-divider">|</span>
+            <button 
+              className="btn-link btn-prefill"
+              onClick={handlePrefill}
+              title="Automatically answer all questions with random selections for testing"
+            >
+              ⚡ Auto Prefill
             </button>
           </div>
         </div>

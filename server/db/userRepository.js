@@ -1,5 +1,5 @@
 const pool = require('./connection');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 
 const SALT_ROUNDS = 10;

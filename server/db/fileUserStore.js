@@ -1,6 +1,6 @@
 const fs = require('fs').promises;
 const path = require('path');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
 
 class FileUserStore {
